@@ -1,0 +1,87 @@
+Dijkstra’s Algorithm — Overview
+
+Definition:
+Dijkstra’s Algorithm is used to find the shortest path between nodes in a weighted graph (with non-negative edge weights). It was developed by Edsger W. Dijkstra in 1956.
+
+Core Idea:
+The algorithm maintains a set of unvisited nodes, repeatedly selecting the node with the smallest tentative distance from the source. It then updates the distances of its neighboring nodes if a shorter path is found. Once processed, a node is marked as visited and never updated again.
+
+How It Works
+
+Assign every node a tentative distance:
+
+0 for the source node.
+
+∞ (infinity) for all others.
+
+Set the source as the current node.
+
+For each unvisited neighbor of the current node:
+
+Calculate the new tentative distance = current_distance + edge_weight.
+
+If this distance is smaller than the previously recorded one, update it.
+
+Mark the current node as visited (it will not be checked again).
+
+Choose the next unvisited node with the smallest tentative distance and repeat.
+
+Stop when all nodes are visited or when the shortest path to the target node is found.
+
+Example
+
+If the nodes represent cities and edges represent distances, Dijkstra’s algorithm helps find the shortest route from one city to all others.
+
+Pseudocode
+function Dijkstra(Graph, source):
+    dist[v] ← ∞ for each vertex v in Graph
+    dist[source] ← 0
+    prev[v] ← UNDEFINED
+    Q ← all vertices in Graph
+
+    while Q is not empty:
+        u ← vertex in Q with smallest dist[u]
+        remove u from Q
+
+        for each neighbor v of u:
+            alt ← dist[u] + weight(u, v)
+            if alt < dist[v]:
+                dist[v] ← alt
+                prev[v] ← u
+
+    return dist[], prev[]
+
+
+To reconstruct the shortest path:
+
+S ← empty sequence
+u ← target
+while u is defined:
+    S.push(u)
+    u ← prev[u]
+
+
+S will contain the shortest path from the source to the target.
+
+Time Complexity
+Implementation	Data Structure	Complexity
+Simple version	Array / Linked List	Θ(V²)
+Optimized version	Binary Heap	Θ((E + V) log V)
+Best version	Fibonacci Heap	Θ(E + V log V)
+Variants
+
+Bidirectional Dijkstra:
+Runs two simultaneous searches — one forward from the source and one backward from the destination — and meets in the middle to improve performance.
+
+Uniform-Cost Search (AI version):
+A variant that continues expanding the lowest-cost node until a goal node is found. Used in A* and other AI pathfinding algorithms.
+
+Applications
+
+Network routing (e.g., OSPF, IS-IS)
+
+GPS navigation systems
+
+Graph-based games and AI
+
+Traffic flow optimization

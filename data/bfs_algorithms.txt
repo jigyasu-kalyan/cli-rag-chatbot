@@ -1,0 +1,101 @@
+Breadth-first search (BFS) is an algorithm for searching a tree data structure for a node that satisfies a given property. It starts at the tree root and explores all nodes at the present depth prior to moving on to the nodes at the next depth level. Extra memory, usually a queue, is needed to keep track of the child nodes that were encountered but not yet explored.
+
+For example, in a chess endgame, a chess engine may build the game tree from the current position by applying all possible moves and use breadth-first search to find a winning position for White. Implicit trees (such as game trees or other problem-solving trees) may be of infinite size; breadth-first search is guaranteed to find a solution node[1] if one exists.
+
+In contrast, (plain) depth-first search (DFS), which explores the node branch as far as possible before backtracking and expanding other nodes,[2] may get lost in an infinite branch and never make it to the solution node. Iterative deepening depth-first search avoids the latter drawback at the price of exploring the tree's top parts over and over again. On the other hand, both depth-first algorithms typically require far less extra memory than breadth-first search.[3]
+
+Breadth-first search can be generalized to both undirected graphs and directed graphs with a given start node (sometimes referred to as a 'search key').[4] In state space search in artificial intelligence, repeated searches of vertices are often allowed, while in theoretical analysis of algorithms based on breadth-first search, precautions are typically taken to prevent repetitions.
+
+BFS and its application in finding connected components of graphs were invented in 1945 by Konrad Zuse, in his (rejected) Ph.D. thesis on the Plankalkül programming language, but this was not published until 1972.[5] It was reinvented in 1959 by Edward F. Moore, who used it to find the shortest path out of a maze,[6][7] and later developed by C. Y. Lee into a wire routing algorithm (published in 1961).[8]
+
+Pseudocode
+Input: A graph G and a starting vertex root of G
+
+Output: Goal state. The parent links trace the shortest path back to root[9]
+
+ 1  procedure BFS(G, root) is
+ 2      let Q be a queue
+ 3      label root as explored
+ 4      Q.enqueue(root)
+ 5      while Q is not empty do
+ 6          v := Q.dequeue()
+ 7          if v is the goal then
+ 8              return v
+ 9          for all edges from v to w in G.adjacentEdges(v) do
+10              if w is not labeled as explored then
+11                  label w as explored
+12                  w.parent := v
+13                  Q.enqueue(w)
+More details
+
+An example map of Southern Germany with some connections between cities
+
+The breadth-first tree obtained when running BFS on the given map and starting in Frankfurt
+This non-recursive implementation is similar to the non-recursive implementation of depth-first search, but differs from it in two ways:
+
+it uses a queue (First In First Out) instead of a stack (Last In First Out) and
+it checks whether a vertex has been explored before enqueueing the vertex rather than delaying this check until the vertex is dequeued from the queue.
+If G is a tree, replacing the queue of this breadth-first search algorithm with a stack will yield a depth-first search algorithm. For general graphs, replacing the stack of the iterative depth-first search implementation with a queue would also produce a breadth-first search algorithm, although a somewhat nonstandard one.[10]
+
+The Q queue contains the frontier along which the algorithm is currently searching.
+
+Nodes can be labelled as explored by storing them in a set, or by an attribute on each node, depending on the implementation.
+
+Note that the word node is usually interchangeable with the word vertex.
+
+The parent attribute of each node is useful for accessing the nodes in a shortest path, for example by backtracking from the destination node up to the starting node, once the BFS has been run, and the predecessors nodes have been set.
+
+Breadth-first search produces a breadth-first tree which is shown in the example below.
+
+Example
+The lower diagram shows the breadth-first tree obtained by running a BFS on an example graph of German cities (upper diagram) starting from Frankfurt.
+
+Analysis
+The time complexity of BFS is O(|V| + |E|), since every vertex and edge is explored once in the worst case.
+Here, |V| is the number of vertices and |E| is the number of edges.
+Note that O(|E|) can vary between O(1) and O(|V|²) depending on how sparse the graph is.
+The space complexity is O(|V|) if we keep track of visited nodes and queue elements.
+When applied to a graph with branching factor b and maximum depth d, BFS runs in O(b^(d+1)) time and space.
+
+Applications
+Breadth-first search can be used to solve many problems in graph theory, for example:
+
+Copying garbage collection, Cheney's algorithm
+Finding the shortest path between two nodes u and v, with path length measured by number of edges (an advantage over depth-first search)[14]
+(Reverse) Cuthill–McKee mesh numbering
+Ford–Fulkerson method for computing the maximum flow in a flow network
+Serialization/Deserialization of a binary tree vs serialization in sorted order, allows the tree to be re-constructed in an efficient manner.
+Construction of the failure function of the Aho-Corasick pattern matcher.
+Testing bipartiteness of a graph.
+Implementing parallel algorithms for computing a graph's transitive closure.[15]
+See also
+Depth-first search – Algorithm to search the nodes of a graph
+Dijkstra's algorithm – Algorithm for finding shortest paths
+Iterative deepening depth-first search – Search strategy
+Level structure – Object in graph theory
+Lexicographic breadth-first search – Partition-based graph traversal method
+Parallel breadth-first search – Parallel version of breadth-first search algorithm
+References
+ that is, a node satisfying the specified property
+ Cormen Thomas H.; et al. (2009). "22.3". Introduction to Algorithms. MIT Press.
+ Korf, Richard E. (1985). "Depth-First Iterative Deepening: An Optimal Admissible Tree Search". Artificial Intelligence (27): 99–100. doi:10.7916/D8HQ46X1.
+ "Graph500 benchmark specification (supercomputer performance evaluation)". Graph500.org, 2010. Archived from the original on 2015-03-26. Retrieved 2015-03-15.
+ Zuse, Konrad (1972), Der Plankalkül (in German), Konrad Zuse Internet Archive. See pp. 96–105 of the linked pdf file (internal numbering 2.47–2.56).
+ Moore, Edward F. (1959). "The shortest path through a maze". Proceedings of the International Symposium on the Theory of Switching. Harvard University Press. pp. 285–292. As cited by Cormen, Leiserson, Rivest, and Stein.
+ Skiena, Steven (2008). "Sorting and Searching". The Algorithm Design Manual. Springer. p. 480. Bibcode:2008adm..book.....S. doi:10.1007/978-1-84800-070-4_4. ISBN 978-1-84800-069-8.
+ Lee, C. Y. (1961). "An Algorithm for Path Connections and Its Applications". IRE Transactions on Electronic Computers (3): 346–365. doi:10.1109/TEC.1961.5219222. S2CID 40700386.
+ Cormen, Thomas H. (January 2010). "22.2 Breadth-first search". Introduction to algorithms. Prentice-Hall Of India Pvt. Limited. ISBN 978-81-203-4007-7. OCLC 1006880283.
+ "Stack-based graph traversal ≠ depth first search". 11011110.github.io. Retrieved 2020-06-10.
+ Cormen, Thomas H.; Leiserson, Charles E.; Rivest, Ronald L.; Stein, Clifford (2001) [1990]. "22.2 Breadth-first search". Introduction to Algorithms (2nd ed.). MIT Press and McGraw-Hill. pp. 531–539. ISBN 0-262-03293-7.
+ Russell, Stuart; Norvig, Peter (2003) [1995]. Artificial Intelligence: A Modern Approach (2nd ed.). Prentice Hall. ISBN 978-0137903955.
+ Coppin, B. (2004). Artificial intelligence illuminated. Jones & Bartlett Learning. pp. 79–80.
+ Aziz, Adnan; Prakash, Amit (2010). "4. Algorithms on Graphs". Algorithms for Interviews. Algorithmsforinterviews.com. p. 144. ISBN 978-1453792995.
+ Dhulipala, Laxman; Blelloch, Guy E.; Shun, Julian (August 21, 2019). Theoretically Efficient Parallel Graph Algorithms Can Be Fast and Scalable. p. 17. arXiv:1805.05208. doi:10.1145/3210377.3210414. ISBN 9781450357999. S2CID 44126609.
+Knuth, Donald E. (1997), The Art of Computer Programming Vol 1. 3rd ed., Boston: Addison-Wesley, ISBN 978-0-201-89683-1, archived from the original on 2008-09-04, retrieved 2008-02-09
+External links
+Open Data Structures - Section 12.3.1 - Breadth-First Search, Pat Morin
+vte
+Data structures and algorithms
+vte
+Graph and tree traversal algorithms
+Categories: Graph algorithmsSearch algorithms

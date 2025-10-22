@@ -1,0 +1,184 @@
+Depth-First Search (DFS)
+
+Class: Search Algorithm
+Data Structure: Graph
+
+Overview
+
+Depth-First Search (DFS) is an algorithm for traversing or searching tree or graph data structures. It starts at the root node (or an arbitrary node in the case of a graph) and explores as far as possible along each branch before backtracking.
+
+A stack (explicit or implicit via recursion) is used to remember the path of visited nodes, enabling the algorithm to backtrack when necessary.
+
+A version of DFS was first investigated by Charles Pierre Trémaux (19th century) as a strategy for solving mazes.
+
+Properties
+Time and Space Complexity
+
+Explicit graphs: O(|V| + |E|)
+(Each vertex and edge is explored once.)
+
+Implicit graphs: O(b^d)
+where b is the branching factor and d is the maximum search depth.
+
+Space complexity:
+
+O(|V|) for storing the stack and visited nodes.
+
+O(bd) when exploring implicit graphs without eliminating duplicate nodes.
+
+DFS is not optimal, as it does not guarantee finding the shortest path.
+
+Characteristics
+
+In theoretical computer science, DFS is used to traverse the entire graph, visiting every vertex and edge exactly once. The total time is linear with respect to the number of vertices and edges.
+
+In practical applications (e.g., web crawling or AI search), the graph may be too large or infinite, so DFS is performed up to a depth limit. In such cases:
+
+Time remains linear in the number of nodes expanded.
+
+Space becomes proportional to the depth limit, much smaller than BFS.
+
+DFS supports heuristic branching and iterative deepening, which applies DFS repeatedly with increasing depth limits.
+
+When a proper depth limit is unknown, Iterative Deepening DFS (IDDFS) provides a compromise between DFS and BFS, incurring only a constant-factor increase in runtime.
+
+DFS may also be used for random sampling of graph nodes; however, incomplete DFS can bias toward nodes with higher degree.
+
+Example
+
+Consider an undirected graph with edges: AB, BD, BF, FE, AC, CG, AE.
+
+DFS starting at A (choosing left edges first):
+Visits → A, B, D, F, E, C, G
+
+The traversed edges form a Trémaux tree (a spanning structure used in graph theory).
+
+If DFS does not remember visited nodes, it may fall into cycles such as
+A → B → D → F → E → A → ..., never reaching C or G.
+
+Iterative deepening avoids such infinite loops by limiting depth and restarting deeper each time.
+
+DFS Output and Edge Types
+
+DFS traversal produces a spanning tree of the reached vertices.
+Edges of the original graph can be categorized as:
+
+Tree edges: part of the DFS tree.
+
+Forward edges: point from a node to its descendant (not direct child).
+
+Back edges: point from a node to an ancestor.
+
+Cross edges: connect nodes in different DFS branches.
+
+For undirected graphs, every edge is either a tree edge or a back edge.
+
+Vertex Orderings
+
+DFS can linearly order vertices in several useful ways:
+
+Ordering Type	Description	Example Use
+Pre-ordering	Order of first visits	Polish notation
+Post-ordering	Order of last visits	Reverse Polish notation
+Reverse pre-ordering	Reverse of pre-order	—
+Reverse post-ordering	Reverse of post-order	Used for topological sort
+
+Reverse post-ordering yields a valid topological sort for any directed acyclic graph (DAG).
+
+This ordering is also used in control-flow analysis of code.
+
+Example code fragment:
+
+if (A) {
+    B
+} else {
+    C
+}
+D
+
+
+Possible topological orders: A B C D or A C B D.
+
+Pseudocode
+Recursive DFS
+procedure DFS(G, v):
+    label v as discovered
+    for each edge (v, w) in G.adjacentEdges(v):
+        if w is not discovered:
+            DFS(G, w)
+
+Iterative DFS (using a stack)
+procedure DFS_iterative(G, v):
+    let S be a stack
+    S.push(v)
+    while S is not empty:
+        v = S.pop()
+        if v is not discovered:
+            label v as discovered
+            for each edge (v, w) in G.adjacentEdges(v):
+                S.push(w)
+
+
+Recursive DFS explores neighbors in the listed order,
+while iterative DFS explores them in reverse (since a stack is LIFO).
+
+Replacing the stack in DFS with a queue yields a BFS algorithm.
+
+An alternative iterative version uses a stack of iterators, producing the same order as recursion.
+
+Applications
+
+DFS serves as a foundation for many algorithms, including:
+
+Finding connected components
+
+Topological sorting
+
+Finding 2- or 3-connected components
+
+Detecting bridges and articulation points
+
+Detecting strongly connected components (Tarjan’s algorithm)
+
+Planarity testing
+
+Solving mazes and puzzles (single-solution or all-solutions)
+
+Maze generation using randomized DFS
+
+Determining evolutionary relationships (phylogenetic trees)
+
+Computational Complexity (Advanced)
+
+Let G be a graph and
+O = (v₁, v₂, …, vₙ) the ordering produced by standard DFS.
+
+Testing whether one vertex u appears before another v in this order is P-complete — inherently sequential and difficult to parallelize.
+
+A randomized parallel algorithm can compute DFS ordering in class RNC.
+
+Whether a deterministic NC algorithm exists for DFS remains open.
+
+References
+
+Even, Shimon (2011), Graph Algorithms (2nd ed.), Cambridge University Press.
+
+Sedgewick, Robert (2002), Algorithms in C++: Graph Algorithms, Pearson Education.
+
+Cormen, Leiserson, Rivest, Stein (2001), Introduction to Algorithms, MIT Press.
+
+Kleinberg, Jon; Tardos, Éva (2006), Algorithm Design, Addison Wesley.
+
+Hopcroft, John; Tarjan, Robert E. (1974), “Efficient Planarity Testing”, JACM.
+
+Mehlhorn, Kurt; Sanders, Peter (2008), Algorithms and Data Structures: The Basic Toolbox.
+
+External Links
+
+Depth-First Search – Wikipedia
+
+C++ Boost Graph Library – DFS
+
+DFS Visualization (Animated)
+
+Open Data Structures – DFS Section (Pat Morin)

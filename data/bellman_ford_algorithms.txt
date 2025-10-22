@@ -1,0 +1,120 @@
+Bellman–Ford Algorithm — Overview
+
+Definition:
+The Bellman–Ford algorithm computes the shortest paths from a single source vertex to all other vertices in a weighted directed graph (digraph).
+Unlike Dijkstra’s Algorithm, it can handle negative edge weights, making it more versatile.
+
+History:
+Originally proposed by Alfonso Shimbel (1955), and later published independently by Richard Bellman (1958) and Lester Ford Jr. (1956). A similar version was published by Edward F. Moore (1959), which is why it is sometimes called the Bellman–Ford–Moore algorithm.
+
+Key Features
+
+Works on directed graphs (digraphs).
+
+Handles negative edge weights.
+
+Detects negative weight cycles (if any exist).
+
+Slower than Dijkstra’s algorithm but more general.
+
+If a negative cycle exists that is reachable from the source, there is no finite shortest path. The algorithm can detect and report such a cycle.
+
+How It Works
+
+The Bellman–Ford algorithm uses the concept of edge relaxation, just like Dijkstra’s algorithm, but it relaxes all edges repeatedly instead of using a priority queue.
+
+Steps:
+
+Initialization:
+
+Set the distance to the source = 0.
+
+Set all other vertices’ distances = ∞ (infinity).
+
+Relaxation (|V| − 1 times):
+
+For each edge (u, v) with weight w:
+If distance[u] + w < distance[v], update:
+
+distance[v] = distance[u] + w
+
+
+Negative Cycle Check:
+
+After the above steps, iterate over all edges once more.
+If any edge still satisfies distance[u] + w < distance[v],
+a negative weight cycle exists in the graph.
+
+Pseudocode
+function BellmanFord(vertices, edges, source):
+    for each vertex v:
+        distance[v] = ∞
+        predecessor[v] = null
+    distance[source] = 0
+
+    // Step 2: Relax edges |V| - 1 times
+    for i = 1 to |V| - 1:
+        for each edge (u, v, w) in edges:
+            if distance[u] + w < distance[v]:
+                distance[v] = distance[u] + w
+                predecessor[v] = u
+
+    // Step 3: Check for negative-weight cycles
+    for each edge (u, v, w) in edges:
+        if distance[u] + w < distance[v]:
+            print("Graph contains a negative-weight cycle")
+
+    return distance, predecessor
+
+Example (Conceptually)
+
+Start from a source vertex A with distance 0.
+
+For every edge, update the shortest known distance to its destination.
+
+Repeat this process |V| − 1 times (equal to the maximum number of edges in any shortest path).
+
+If after all relaxations, any distance still reduces, it means there’s a negative cycle.
+
+Time and Space Complexity
+Case	Complexity
+Time (worst)	Θ(V × E)
+Time (best)	Θ(E)
+Space	Θ(V)
+Advantages
+
+✅ Works with negative edge weights
+✅ Can detect negative cycles
+✅ Conceptually simple to understand and implement
+
+Disadvantages
+
+❌ Slower than Dijkstra’s Algorithm
+❌ Not suitable for very large graphs due to its O(V × E) complexity
+
+Optimizations
+
+Early termination:
+If in an iteration no edge is relaxed, the algorithm can terminate early, improving performance in practice.
+
+Shortest Path Faster Algorithm (SPFA):
+A more efficient version that only relaxes edges from vertices whose distances were updated in the previous iteration.
+
+Applications
+
+Network routing protocols (e.g., RIP - Routing Information Protocol)
+
+Finding negative cycles in financial models or currency exchange graphs
+
+Network flow analysis
+
+Shortest path in graphs with negative weights
+
+Summary
+Property	Bellman–Ford Algorithm
+Works on directed graphs	✅
+Handles negative edges	✅
+Detects negative cycles	✅
+Time complexity	O(V × E)
+Approach	Dynamic programming
+Optimal for	Sparse or negatively weighted graphs

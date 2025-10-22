@@ -1,0 +1,93 @@
+Floyd–Warshall Algorithm (Simplified Explanation)
+
+Category: All-pairs shortest path problem
+Data Structure: Graph
+Time Complexity: Θ(V³)
+Space Complexity: Θ(V²)
+
+Overview
+
+The Floyd–Warshall algorithm (also called Floyd’s, Roy–Warshall, or WFI algorithm) finds shortest paths between all pairs of vertices in a directed weighted graph, allowing both positive and negative weights (but no negative cycles).
+It efficiently computes the shortest distances between every pair of vertices and can be extended to find paths or transitive closures.
+
+History
+
+Developed in 1962 by Robert Floyd, though similar ideas were introduced by Bernard Roy (1959) and Stephen Warshall (1962).
+
+Related to Kleene’s algorithm (1956) for converting automata into regular expressions.
+
+The familiar three-nested-loop form was described by Peter Ingerman (1962).
+
+Idea
+
+For a graph with vertices 1...N, define
+shortestPath(i, j, k) = length of the shortest path from vertex i to j using only vertices {1...k} as intermediates.
+
+Recursive relation:
+
+shortestPath(i, j, k) = min(
+    shortestPath(i, j, k - 1),
+    shortestPath(i, k, k - 1) + shortestPath(k, j, k - 1)
+)
+
+
+Base case:
+shortestPath(i, j, 0) = w(i, j) if edge (i, j) exists, else ∞.
+
+Pseudocode
+let dist[V][V] = ∞
+for each edge (u, v):
+    dist[u][v] = weight(u, v)
+for each vertex v:
+    dist[v][v] = 0
+
+for k from 1 to V:
+    for i from 1 to V:
+        for j from 1 to V:
+            if dist[i][j] > dist[i][k] + dist[k][j]:
+                dist[i][j] = dist[i][k] + dist[k][j]
+
+
+⚠️ Correct loop order: K-I-J (misordering can give wrong results).
+
+Detecting Negative Cycles
+
+If any diagonal element dist[i][i] < 0 after running the algorithm,
+then a negative cycle exists in the graph.
+
+Path Reconstruction
+
+You can track paths by maintaining a prev[u][v] matrix storing the predecessor of each vertex:
+
+if dist[i][j] > dist[i][k] + dist[k][j]:
+    dist[i][j] = dist[i][k] + dist[k][j]
+    prev[i][j] = prev[k][j]
+
+
+To rebuild the path, repeatedly follow prev[u][v] until reaching u.
+
+Time Complexity
+
+Time: Θ(V³)
+
+Space: Θ(V²)
+
+Applications
+
+All-pairs shortest paths (Floyd’s algorithm)
+
+Transitive closure (Warshall’s algorithm)
+
+Widest path / maximum bandwidth problems
+
+Regular expression generation from automata (Kleene’s algorithm)
+
+Pathfinding in network routing and flow problems
+
+Comparison
+
+Dijkstra’s algorithm: Better for single-source shortest path, O((E + V) log V).
+
+Floyd–Warshall: Better for dense graphs or when all pairs are needed.
+
+Johnson’s algorithm: Efficient for sparse graphs with negative edges but no negative cycles.
