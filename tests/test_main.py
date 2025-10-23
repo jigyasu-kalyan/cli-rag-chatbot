@@ -25,6 +25,7 @@ def test_root():
     assert response.status_code == 200
     assert response.json() == {"message": "Welcome to the RAG API!"}
 
+@pytest.mark.skipif(os.getenv("CI") == "true", reason="Database not available in CI environment")
 @pytest.mark.skipif(client is None, reason='Couldn\'t connect to FastAPI')
 def test_ask_question():
     response = client.post('/ask', json={"question": "What is Dijkstra's Algorithm?"})
