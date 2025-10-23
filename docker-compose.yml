@@ -1,0 +1,13 @@
+version: '3.8' # Specify the docker-compose version
+
+services:
+  api: # Define a service named 'api'
+    build: . # Build the image from the Dockerfile in the current directory
+    ports:
+      - "8000:8000" # Map port 8000 on your host machine to port 8000 in the container
+    volumes:
+      # Mount the chroma_db folder from your host into the container
+      # This ensures the database persists even if the container stops/restarts
+      - ./chroma_db:/app/chroma_db 
+    env_file:
+      - .env # Load environment variables from the .env file
