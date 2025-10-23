@@ -39,5 +39,9 @@ jobs:
       # Note: Tests requiring API keys or DB access might fail here initially
       # We'll address that if needed, for now just run pytest
       - name: Run tests
+        env: # <-- ADD THIS BLOCK
+          # Make the GitHub Secret available as an environment variable
+          # The name here (GOOGLE_API_KEY) must match what os.getenv() expects
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }} 
         run: |
           pytest
