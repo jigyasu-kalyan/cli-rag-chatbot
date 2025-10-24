@@ -3,7 +3,7 @@ import sys
 from dotenv import load_dotenv
 import google.generativeai as genai
 import chromadb
-from rag_logic import get_query_embedding, find_relevant_chunks, get_rag_answer
+from rag_logic import get_query_embedding, find_relevant_chunks_with_rerank, get_rag_answer
 
 if __name__ == "__main__":
 
@@ -27,7 +27,7 @@ if __name__ == "__main__":
 
         print("Thinking...")
 
-        chunks = find_relevant_chunks(my_question, collection)
+        chunks = find_relevant_chunks_with_rerank(my_question, collection)
 
         if not chunks:
             print("No relevant information found.")

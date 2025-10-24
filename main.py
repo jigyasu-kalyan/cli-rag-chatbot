@@ -4,7 +4,7 @@ import google.generativeai as genai
 import chromadb
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from rag_logic import find_relevant_chunks, get_rag_answer
+from rag_logic import find_relevant_chunks_with_rerank, get_rag_answer
 
 load_dotenv()
 API_KEY = os.getenv("GOOGLE_API_KEY")
@@ -51,7 +51,7 @@ async def ask_question(request: QuestionRequest):
     print(f"Recieved question: {question}")
 
     try:
-        chunks = find_relevant_chunks(question, collection)
+        chunks = find_relevant_chunks_with_rerank(question, collection)
         if not chunks:
             print("No relevant context found.")
             raise HTTPException(status_code=404, detail="No relevant context found in yoour documents for the recieved question.")
